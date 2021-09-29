@@ -1,8 +1,12 @@
 # Flask
 
-Ett väldigt populärt framework i Python är Flask. Med framework menas en grupp med resurser och verktyg i syfte att skapa webbapplikationer och hemsidor. Det förenklar helt enkelt vårt arbete då det finns en struktur i hur vi ska bygga våra applikationer.
+Dokumentation: https://flask.palletsprojects.com/en/2.0.x/
 
-#### Skapa en minimalistisk Flask Applikation
+Github-repo: https://github.com/AlexisFlach/flask-presentation
+
+Ett väldigt populärt framework i Python är Flask. Med framework menas en grupp med resurser och verktyg i syfte att skapa webbapplikationer och hemsidor. Det förenklar helt enkelt vårt arbete då det finns en struktur i hur vi ska bygga våra applikationer. Vi får ett redan färdigt system att förhålla oss till vilket ger oss en tydlig och effektiv struktur. 
+
+#### Skapa en simpel Flask Applikation
 
 Skapa en mapp "flaskapp". 
 
@@ -113,8 +117,6 @@ Vi kan lagra våra dependencies i en requirements.txt-fil genom att köra
 pip freeze > requirements.txt
 ```
 
-
-
 #### Render Templates
 
 Flask är som tidigare har nämts är ett library med funktioner vi kan använda oss av för att förenkla vår tillvaro. render_templates är en sådan. render_templates letar efter templates att rendera, hämtar den, så att vi kan displaye dess kontent i webbläsaren.
@@ -132,6 +134,8 @@ def index():
 ```
 
 **2. Skapa en ny mapp "templates"**
+
+**filstruktur**
 
 ```
 flaskapp
@@ -163,6 +167,8 @@ def about():
 
 **6. template för about**
 
+**filstruktur**
+
 ```
 flaskapp
 	venv
@@ -172,9 +178,23 @@ flaskapp
 		about.html
 ```
 
+**about.html**
+
+```
+<h2>About Page</h2>
+```
+
 #### Forms
 
-**1 index.html**
+Ytterligare en funktion, eller i detta fall, objekt, som vi får gratis genom att använda Flask är **request**. Vad request gör är att hanterar inkommande requests och ger en tillgång till det som skickats med. 
+
+**1. Inkludera request i applikationen**
+
+```
+from flask import Flask, render_template, request
+```
+
+**2. Skapa ett formulär i  index.html**
 
 ```
 <!DOCTYPE html>
@@ -198,7 +218,7 @@ Lägg märke till action="/register" method="post".
 
 Vi måste nu hantera en post request i till route /register.
 
-**2. Lägg till POST request i app.py**
+**3. Lägg till POST request i app.py**
 
 ```
 @app.route("/register", methods=["POST"])
@@ -206,7 +226,7 @@ def register():
   return render_template('home.html', name=request.form.get("name"))
 ```
 
-**3. home.html**
+**4. home.html**
 
 ```
 <h2>Welcome, {{name}}</h2>
@@ -239,7 +259,7 @@ Vi kan effektivisera vår struktur med hjälp av jinja.
 </html>
 ```
 
-Vi har nu grunden för vår layout och kan passa in html mellan blocken.
+Vi har nu grunden för vår layout och kan passa in övriga templates mellan blocken.
 
 **2. home.html**
 
@@ -249,6 +269,18 @@ Vi har nu grunden för vår layout och kan passa in html mellan blocken.
 {% block content %}
 
 <h2>Welcome, {{name}}</h2>
+
+{% endblock content%}
+```
+
+**3. about.html**
+
+```
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2>About Page</h2>
 
 {% endblock content%}
 ```
